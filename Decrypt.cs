@@ -38,16 +38,20 @@ internal class Program
         }
     }
 
+	// Intent: To build an encryption stream. 
     private static byte[] DecryptFile(string sourceFile, string destinationFile, byte[] key, byte[] iv)
     {
         using (RijndaelManaged rijndaelManaged = new RijndaelManaged())
         {
+			//Intent: To set up the final decrypted file.
             using (FileStream fileStream = new FileStream(destinationFile, FileMode.Create))
             {
+				//Intent: To activate the decryption.
                 using (ICryptoTransform cryptoTransform = rijndaelManaged.CreateDecryptor(key, iv))
                 {
                     using (CryptoStream cryptoStream = new CryptoStream(fileStream, cryptoTransform, CryptoStreamMode.Write))
                     {
+						//Intent: To stream in the encrypted file.
                         using (FileStream fileStream2 = new FileStream(sourceFile, FileMode.Open))
                         {
                             byte[] array = new byte[1024];
